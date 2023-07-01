@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup;
 
 meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
-def getJogos(ano, partida):
+def getPartida(ano, partida):
     url = 'https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/'+str(ano)+'/'+str(partida)+'#escalacao';
     
     page = requests.get(url);
