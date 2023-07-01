@@ -16,7 +16,9 @@ def getJogos(ano, partida):
     spans = soup.find_all('span')
     tgt_class_left = 'time-left';
     tgt_class_right = 'time-right';
-
+    yellow_card = 'icon small icon-yellow-card';
+    red_card = 'icon small icon-red-card';
+        
     class Partida:
         resultado_valido = False
         msg = ''
@@ -26,8 +28,12 @@ def getJogos(ano, partida):
         partida_numero = 0
         mandante_nome = ''
         mandante_placar = 0
+        mandante_cartoes_amarelos = 0
+        mandante_cartoes_vermelhos = 0
         visitante_nome = ''
         visitante_placar = 0
+        visitante_cartoes_amarelos = 0
+        visitante_cartoes_vermelhos = 0
 
     partida = Partida();
         
@@ -45,6 +51,11 @@ def getJogos(ano, partida):
     partida.partida_local = rawLocal[0].replace(' ', '')+', '+rawLocal[1]+', '+rawLocal[2].replace(' ', '')
     
     if(data_jogo < hoje):
+        partida.mandante_cartoes_amarelos = str(divs[35]).count(yellow_card) + str(divs[40]).count(yellow_card)
+        partida.visitante_cartoes_amarelos = str(divs[36]).count(yellow_card) + str(divs[41]).count(yellow_card)
+        partida.mandante_cartoes_vermelhos = str(divs[35]).count(red_card) + str(divs[40]).count(red_card)
+        partida.visitante_cartoes_vermelhos = str(divs[36]).count(red_card) + str(divs[41]).count(red_card)
+        
         for div in divs:
             if(div.get('class') != None):
                 if tgt_class_left in div.get('class'):
@@ -60,16 +71,3 @@ def getJogos(ano, partida):
         partida.msg = 'Partida ainda não realizada!'
                     
     return partida;
-
-'''
-test = getJogos(2023, 1);
-
-if(hasattr(test, 'mandante_placar')):
-    print(test.partida_numero);
-    print(test.mandante_nome);
-    print(test.mandante_placar);
-    print(test.visitante_nome);
-    print(test.visitante_placar);  
-    print(test.partida_local);
-    print(test.partida_data)
-'''
