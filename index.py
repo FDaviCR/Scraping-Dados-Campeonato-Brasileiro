@@ -1,7 +1,27 @@
 from Mysql_connect import Connection, executeDatabaseCommand
 from Ws_partidas import getPartida
 from Ws_times import getTimes
+from Ws_campeonato import getCampeonato
 
+def cadastrarCampeonatoBrasileiroA(anoCampeonato):
+    dados = getCampeonato(anoCampeonato);
+    sqlCheck = ("select Campeonato, Divisao, Ano from campeonatos");
+    Connection.execute(sqlCheck);
+    campeonatosCadastradosRaw = Connection.fetchall();
+    campeonatosCadastrados = [];
+    
+    for campeonato in campeonatosCadastradosRaw:
+        campeonatosCadastrados.append(campeonato[0].lower()+campeonato[1].lower()+str(campeonato[2]));
+        
+    if((dados[0].lower()+dados[1].lower()+str(dados[2])) in campeonatosCadastrados):
+        print(dados[0]+" - "+dados[1]+" - "+dados[2] + " já cadastrado!");
+    else:
+        sql = ("INSERT INTO campeonatos (campeonato, divisao, ano, ativo) VALUES (%s, %s, %s, %s)");
+        values = (dados[0], dados[1], dados[2], 1);
+
+        Connection.execute(sql, values)
+        executeDatabaseCommand();
+    
 def cadastrarTimes(anoCampeonato):
     times = getTimes(anoCampeonato);
     sqlCheck = ("select time from times");
@@ -22,7 +42,8 @@ def cadastrarTimes(anoCampeonato):
             Connection.execute(sql, values)
             executeDatabaseCommand();
         
-cadastrarTimes(2023)     
+#cadastrarTimes(2023)     
+cadastrarCampeonatoBrasileiroA(2023)
         
 '''
 if(hasattr(test, 'mandante_placar')):
