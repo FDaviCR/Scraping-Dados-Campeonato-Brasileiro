@@ -113,7 +113,6 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
         print("Campeonato não localizado!")
             
          
-            
 cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2023)  
 #cadastrarTimes(2023)     
 #cadastrarCampeonato(2023)
