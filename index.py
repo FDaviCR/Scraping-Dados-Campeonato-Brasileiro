@@ -1,7 +1,7 @@
-from MySqlConnect import Connection, executeDatabaseCommand
-from WsPartidas import getPartida
-from WsTimes import getTimes
-from WsCampeonato import getCampeonato
+from Database.MySqlConnect import Connection, executeDatabaseCommand
+from Scraping.WsPartidas import getPartida
+from Scraping.WsTimes import getTimes
+from Scraping.WsCampeonato import getCampeonato
 
 def verificarCampeonato(Campeonato, Divisao, Ano):
     sql = ("select id, Campeonato, Divisao, Ano from campeonatos");
@@ -94,9 +94,15 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
                 
                 partidaRealizada = Connection.fetchall();    
                 partida = getPartida(Ano, jogo);
+                
+                if(partidaRealizada == []):
+                    partidaRealizada = [(0, 1)]
+                print(partidaRealizada)
 
                 mandante = verificarTime(partida.mandante_nome);
                 visitante = verificarTime(partida.visitante_nome);
+                print(mandante)
+                print(visitante)        
                         
                 if(mandante[0] and visitante[0]):
                     sql = ("UPDATE partidas SET local = %s, data = %s, golsMandante = %s, golsVisitante = %s, cartoesAmarelosMandante = %s, cartoesAmarelosVisitante = %s, cartoesVermelhosMandante = %s, cartoesVermelhosVisitante = %s, partidaRealizada = %s WHERE id = %s");
@@ -113,6 +119,6 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
         print("Campeonato não localizado!")
             
          
-cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2023)  
+cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2022)  
 #cadastrarTimes(2023)     
-#cadastrarCampeonato(2023)
+#cadastrarCampeonato(2022)

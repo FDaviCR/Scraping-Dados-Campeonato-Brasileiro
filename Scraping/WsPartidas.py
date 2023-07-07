@@ -90,5 +90,6 @@ def getPartida(ano, partida):
                         partida.visitante_placar = 0
                         partida.resultado_valido = False
                     
-                partida.msg = 'Dados capturados com sucesso!';               
+                partida.msg = 'Dados capturados com sucesso!';  
+                        
     return partida;
