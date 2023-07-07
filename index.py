@@ -23,9 +23,9 @@ def verificarTime(Time):
             return [True, item[0]]
     return [False, 0]
 
-def verificarPartida(NumeroPartida):
-    sql = ("select id, numeroPartida, partidaRealizada from partidas where numeroPartida = %s");
-    values = (NumeroPartida,)
+def verificarPartida(NumeroPartida, Campeonato):
+    sql = ("select id, numeroPartida, partidaRealizada from partidas where numeroPartida = %s and campeonatoId = %s");
+    values = (NumeroPartida, Campeonato,)
     Connection.execute(sql, values)
     
     partida = Connection.fetchall();
@@ -33,7 +33,7 @@ def verificarPartida(NumeroPartida):
         return [True, partida[0][0], partida[0][1], partida[0][2]]
     else:
         return [False, 0, 0, 0]
-        
+
 def cadastrarCampeonato(anoCampeonato):
     dados = getCampeonato(anoCampeonato);
     existeCampeonato = verificarCampeonato(dados[0], dados[1], dados[2])
@@ -67,16 +67,18 @@ def cadastrarTimes(anoCampeonato):
 def cadastrarPartidas(Campeonato, Divisao, Ano):
     jogo = 1
     campeonato = verificarCampeonato(Campeonato, Divisao, Ano)
-    existePartida = verificarPartida(jogo);
+    
     
     if(campeonato[0]):
         while(jogo<=380):
+            existePartida = verificarPartida(jogo, campeonato[1]);
+            
             if(not existePartida[0]):
                 partida = getPartida(Ano, jogo);
 
                 mandante = verificarTime(partida.mandante_nome);
                 visitante = verificarTime(partida.visitante_nome);
-                        
+                      
                 if(mandante[0] and visitante[0]):
                     sql = ("INSERT INTO partidas (numeroPartida, local, data, golsMandante, golsVisitante, cartoesAmarelosMandante, cartoesAmarelosVisitante, cartoesVermelhosMandante, cartoesVermelhosVisitante, campeonatoId, mandanteId, visitanteId, partidaRealizada) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
                     values = (partida.partida_numero, partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, campeonato[1], mandante[1], visitante[1], partida.resultado_valido);
@@ -97,12 +99,9 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
                 
                 if(partidaRealizada == []):
                     partidaRealizada = [(0, 1)]
-                print(partidaRealizada)
 
                 mandante = verificarTime(partida.mandante_nome);
-                visitante = verificarTime(partida.visitante_nome);
-                print(mandante)
-                print(visitante)        
+                visitante = verificarTime(partida.visitante_nome);    
                         
                 if(mandante[0] and visitante[0]):
                     sql = ("UPDATE partidas SET local = %s, data = %s, golsMandante = %s, golsVisitante = %s, cartoesAmarelosMandante = %s, cartoesAmarelosVisitante = %s, cartoesVermelhosMandante = %s, cartoesVermelhosVisitante = %s, partidaRealizada = %s WHERE id = %s");
@@ -120,5 +119,6 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
             
          
 cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2022)  
-#cadastrarTimes(2023)     
+
+#cadastrarTimes(2022)     
 #cadastrarCampeonato(2022)
