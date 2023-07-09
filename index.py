@@ -78,10 +78,15 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
 
                 mandante = verificarTime(partida.mandante_nome);
                 visitante = verificarTime(partida.visitante_nome);
+                
+                if(int(partida.partida_numero) % 10 == 0):
+                    rodada = int(partida.partida_numero)/10
+                else:
+                    rodada = (int(partida.partida_numero) + 10) // 10
                       
                 if(mandante[0] and visitante[0]):
-                    sql = ("INSERT INTO partidas (numeroPartida, local, data, golsMandante, golsVisitante, cartoesAmarelosMandante, cartoesAmarelosVisitante, cartoesVermelhosMandante, cartoesVermelhosVisitante, campeonatoId, mandanteId, visitanteId, partidaRealizada) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
-                    values = (partida.partida_numero, partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, campeonato[1], mandante[1], visitante[1], partida.resultado_valido);
+                    sql = ("INSERT INTO partidas (numeroPartida, local, data, golsMandante, golsVisitante, cartoesAmarelosMandante, cartoesAmarelosVisitante, cartoesVermelhosMandante, cartoesVermelhosVisitante, campeonatoId, mandanteId, visitanteId, partidaRealizada, rodada) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
+                    values = (partida.partida_numero, partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, campeonato[1], mandante[1], visitante[1], partida.resultado_valido, rodada);
                             
                     Connection.execute(sql, values)
                     executeDatabaseCommand(); 
@@ -101,11 +106,16 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
                     partidaRealizada = [(0, 1)]
 
                 mandante = verificarTime(partida.mandante_nome);
-                visitante = verificarTime(partida.visitante_nome);    
-                        
+                visitante = verificarTime(partida.visitante_nome);  
+                
+                if(int(partida.partida_numero) % 10 == 0):
+                    rodada = int(partida.partida_numero)/10
+                else:
+                    rodada = (int(partida.partida_numero) + 10) // 10
+                           
                 if(mandante[0] and visitante[0]):
-                    sql = ("UPDATE partidas SET local = %s, data = %s, golsMandante = %s, golsVisitante = %s, cartoesAmarelosMandante = %s, cartoesAmarelosVisitante = %s, cartoesVermelhosMandante = %s, cartoesVermelhosVisitante = %s, partidaRealizada = %s WHERE id = %s");
-                    values = (partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, partida.resultado_valido, partidaRealizada[0][0]);
+                    sql = ("UPDATE partidas SET local = %s, data = %s, golsMandante = %s, golsVisitante = %s, cartoesAmarelosMandante = %s, cartoesAmarelosVisitante = %s, cartoesVermelhosMandante = %s, cartoesVermelhosVisitante = %s, partidaRealizada = %s, rodada = %s WHERE id = %s");
+                    values = (partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, partida.resultado_valido, rodada, partidaRealizada[0][0]);
                             
                     Connection.execute(sql, values)
                     executeDatabaseCommand(); 
