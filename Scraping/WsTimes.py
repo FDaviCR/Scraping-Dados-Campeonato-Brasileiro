@@ -2,7 +2,7 @@ import requests;
 from bs4 import BeautifulSoup;
 
 def getTimes(ano):
-    url = 'https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/'+str(ano);
+    url = 'https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/{}'.format(str(ano));
     
     page = requests.get(url);
     soup = BeautifulSoup(page.text, 'html.parser');

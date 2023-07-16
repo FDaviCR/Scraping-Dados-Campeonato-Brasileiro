@@ -7,7 +7,7 @@ from datetime import datetime;
 meses = ['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
 
 def getPartida(ano, partida):
-    url = 'https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/'+str(ano)+'/'+str(partida)+'#escalacao';
+    url = 'https://www.cbf.com.br/futebol-brasileiro/competicoes/campeonato-brasileiro-serie-a/{}/{}#escalacao'.format(str(ano), str(partida));
     
     page = requests.get(url);
     soup = BeautifulSoup(page.text, 'html.parser');

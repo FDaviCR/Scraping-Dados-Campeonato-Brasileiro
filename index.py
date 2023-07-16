@@ -98,6 +98,7 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
                 sql = ("select id, partidaRealizada from partidas where campeonatoId = %s and numeroPartida = %s")
                 values = (campeonato[1],jogo,)
                 Connection.execute(sql, values)
+                print("Jogo: " + str(jogo))
                 
                 partidaRealizada = Connection.fetchall();    
                 partida = getPartida(Ano, jogo);
@@ -127,8 +128,8 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
     else:
         print("Campeonato não localizado!")
             
-         
-cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2022)  
 
-#cadastrarTimes(2022)     
-#cadastrarCampeonato(2022)
+cadastrarCampeonato(2020)  
+cadastrarTimes(2020)       
+cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2020)  
+
