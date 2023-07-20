@@ -1,11 +1,23 @@
-from tkinter import *
-from tkinter import ttk
+import tkinter as tk
+#import tkMessageBox
 
-root = Tk()
-frm = ttk.Frame(root, padding=10)
-frm.grid()
+class App(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.pack()
 
-ttk.Label(frm, text="Hello World!").grid(column=0, row=0)
-ttk.Button(frm, text="Quit", command=root.destroy).grid(column=1, row=0)
+app = App()
 
-root.mainloop()
+app.master.title("App")
+app.master.minsize(500, 400)
+app.master.maxsize(1000, 800)
+
+def helloCallBack():
+   #tkMessageBox.showinfo(app, "Hello Python", "Hello World")
+   print("Tst")
+
+
+B = tk.Button(app, text ="Hello", command = helloCallBack)
+B.pack()
+
+app.mainloop()
