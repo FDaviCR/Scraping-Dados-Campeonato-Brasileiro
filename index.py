@@ -1,35 +1,44 @@
-import tkinter as tk
 from tkinter import messagebox
-'''
-class App(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.pack()
+from tkinter import Tk, ttk, Button, Text
+from ttkthemes import ThemedTk
+from ttkbootstrap import Style
 
-app = App()
+#app = Tk()
+#app = ThemedTk(theme='equilux')
 
-app.master.title("App")
-app.master.minsize(500, 400)
-app.master.maxsize(1000, 800)
-'''
+style = Style(theme='superhero')
+app = style.master
 
-app = tk.Tk()
-
-app.title("App")
+app.title("App - Campeonatos")
 app.minsize(500, 400)
-app.maxsize(1000, 800)
+#app.maxsize(1000, 800)
 
-def helloCallBack():
-   messagebox.showinfo("Dado", I.get())
+frameWindow = ttk.Frame()
+frameTitle = ttk.Frame(frameWindow)
+frameForm = ttk.Frame(frameWindow)
 
-tk.Label(app, text='TESTE').grid(row=0)
-#L.pack(side = "left")
+titulo = ttk.Label(frameTitle, text="Titulo")
+titulo.grid(row=0, column=0, padx=10, pady=10)
+'''
+style = ttk.Style()
+style.configure('TButton', font=('Arial', 30))
 
-I = tk.Entry(app, text="Informe o ano")
-I.grid(row=0, column=2)
-#I.pack(side = "right")
+frame1 = ttk.Frame()
 
-tk.Button(app, text ="Hello", command = helloCallBack).grid(row=2, column=1)
-#B.pack()
+b2 = ttk.Button(frame1 ,text='Python')
+b2.grid(row=0, column=0, padx=10, pady=10)
+
+entrada = Text()
+entrada.pack(padx=10, fill='both', expand='yes')
+
+b1 = ttk.Button(text='TESTE')
+b1.pack(fill='both')
+
+frame1.pack()
+'''
+frameWindow.pack()
+frameForm.pack()
+frameTitle.pack()
+#b2.pack(padx=20, pady=50)
 
 app.mainloop()
