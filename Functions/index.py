@@ -1,7 +1,7 @@
 from Database.MySqlConnect import Connection, executeDatabaseCommand
-from Scraping.WsPartidas import getPartida
-from Scraping.WsTimes import getTimes
-from Scraping.WsCampeonato import getCampeonato
+from Functions.WsPartidas import getPartida
+from Functions.WsTimes import getTimes
+from Functions.WsCampeonato import getCampeonato
 
 def verificarCampeonato(Campeonato, Divisao, Ano):
     sql = ("select id, Campeonato, Divisao, Ano from campeonatos");
@@ -128,8 +128,8 @@ def cadastrarPartidas(Campeonato, Divisao, Ano):
     else:
         print("Campeonato não localizado!")
             
-
+'''
 cadastrarCampeonato(2020)  
 cadastrarTimes(2020)       
 cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2020)  
-
+'''
