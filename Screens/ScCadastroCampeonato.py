@@ -9,17 +9,17 @@ divisoes = ['Série A','Série B','Série C']
 style = Style(theme='superhero')
 app = style.master
 
-app.title("App - Campeonatos")
+app.title("Cadastrar Campeonato")
 app.minsize(530, 300)
 app.maxsize(1000, 800)
 
 # Frames onde estão contidos os elementos em tela
 frameWindow = ttk.Frame(borderwidth=2, relief='solid')
-frameTitle = ttk.Frame(frameWindow, borderwidth=2, relief='solid')
+frameTitle = ttk.Frame(frameWindow)
 frameForm = ttk.Frame(frameWindow, borderwidth=2, relief='solid')
 
 # Elementos do titulo exibido em tela
-titulo = ttk.Label(frameTitle, text="Scraping de Dados de Campeonatos CBF", font=('Arial', 20))
+titulo = ttk.Label(frameTitle, text="Cadastrar Campeonato", font=('Arial', 20))
 titulo.grid(row=0, column=0, padx=10, pady=10)
 
 # Elementos do form
