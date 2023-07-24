@@ -19,7 +19,7 @@ frameTitle = ttk.Frame(frameWindow, borderwidth=2, relief='solid')
 frameForm = ttk.Frame(frameWindow, borderwidth=2, relief='solid')
 
 # Elementos do titulo exibido em tela
-titulo = ttk.Label(frameTitle, text="Cadastro de Dados de Campeonatos CBF", font=('Arial', 20))
+titulo = ttk.Label(frameTitle, text="Scraping de Dados de Campeonatos CBF", font=('Arial', 20))
 titulo.grid(row=0, column=0, padx=10, pady=10)
 
 # Elementos do form
