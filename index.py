@@ -27,6 +27,7 @@ cadastroTimes.grid(row=1, column=0, pady=10)
 cadastroPartidas = ttk.Button(frameForm, text='Cadastrar Times', width=50)
 cadastroPartidas.grid(row=2, column=0, pady=10)
 
+
 frameWindow.pack(padx=20, pady=10)
 frameTitle.pack(padx=20, pady=10)
 frameForm.pack(padx=20, pady=40)

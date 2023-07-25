@@ -47,6 +47,9 @@ comboDivisao.grid(row=3, column=1, padx=10, pady=5)
 buttonCadastrar = ttk.Button(frameForm, text='Cadastrar Campeonato')
 buttonCadastrar.grid(row=4, column=1, padx=5, pady=10)
 
+buttonVoltar = ttk.Button(frameForm, text='Voltar')
+buttonVoltar.grid(row=8, column=1, padx=100, pady=40)
+
 frameWindow.pack(padx=20, pady=10)
 frameTitle.pack(padx=20, pady=10)
 frameForm.pack(padx=20, pady=40)
