@@ -2,7 +2,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from ttkbootstrap import Style
 
-from Functions.index import cadastrarPartidas, cadastrarCampeonatoBrasileiro
+from Functions.index import cadastrarCampeonatoBrasileiro, cadastrarTimesCampeonatoBrasileiro, cadastrarPartidasPorCampeonato
 
 anos = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 campeonatos = ['Campeonato Brasileiro de Futebol']
@@ -40,10 +40,24 @@ def cadastrarCampeonato():
         messagebox.showerror(title='Cadastro de Campeonato', message=cadastro.msg)
        
 def cadastrarTime():
-    messagebox.showinfo(title='Mensagem de retorno', message='Cadastro de Time')
+    ano = int(comboAnoTime.get());
+    cadastro = cadastrarTimesCampeonatoBrasileiro(ano);
+    
+    if(cadastro.sucess == True):
+        messagebox.showinfo(title='Cadastro de Times', message=cadastro.msg)
+    else:
+        messagebox.showerror(title='Cadastro de Times', message=cadastro.msg)
     
 def cadastrarPartidas():
-    messagebox.showinfo(title='Mensagem de retorno', message='Cadastro de PArtidas')
+    ano = int(comboAnoPartidas.get());
+    campeonato = comboCampeonatoPartidas.get();
+    divisao = comboDivisaoPartidas.get();
+    cadastro = cadastrarPartidasPorCampeonato(campeonato, divisao, ano);
+    
+    if(cadastro.sucess == True):
+        messagebox.showinfo(title='Cadastro de Partidas', message=cadastro.msg)
+    else:
+        messagebox.showerror(title='Cadastro de Partidas', message=cadastro.msg)
 
 # Configurações iniciais de tela
 style = Style(theme='superhero')

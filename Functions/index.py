@@ -64,8 +64,9 @@ def cadastrarCampeonatoBrasileiro(anoCampeonato):
             resposta.msg = "Aconteceu um erro na gravação dos dados!";
             return resposta;
             
-def cadastrarTimes(anoCampeonato):
+def cadastrarTimesCampeonatoBrasileiro(anoCampeonato):
     times = getTimes(anoCampeonato);
+    resposta = Answer();
 
     for time in times:
         existeTime = verificarTime(time);
@@ -73,80 +74,97 @@ def cadastrarTimes(anoCampeonato):
         if(existeTime[0]):
             print(time + " já cadastrado!")
         else:
-            apelidoRaw = time.split(' - ');
-            apelido = apelidoRaw[0].replace(' Saf','').replace(' S.a.f.','')
-            sql = ("INSERT INTO times (time, ativo, timeApelido) VALUES (%s, %s, %s)");
-            values = (time, 1, apelido);
+            try:
+                apelidoRaw = time.split(' - ');
+                apelido = apelidoRaw[0].replace(' Saf','').replace(' S.a.f.','')
+                sql = ("INSERT INTO times (time, ativo, timeApelido) VALUES (%s, %s, %s)");
+                values = (time, 1, apelido);
 
-            Connection.execute(sql, values)
-            executeDatabaseCommand(); 
+                Connection.execute(sql, values)
+                executeDatabaseCommand();
+            except:
+                resposta.sucess = False;
+                resposta.msg = "Aconteceu um erro na gravação dos dados!";
+                return resposta;
             
-def cadastrarPartidas(Campeonato, Divisao, Ano):
+        resposta.sucess = True;
+        resposta.msg = "Times cadastrados com sucesso!";
+        return resposta;
+            
+def cadastrarPartidasPorCampeonato(Campeonato, Divisao, Ano):
     jogo = 1
     campeonato = verificarCampeonato(Campeonato, Divisao, Ano)
-    
+    resposta = Answer();
     
     if(campeonato[0]):
-        while(jogo<=380):
-            existePartida = verificarPartida(jogo, campeonato[1]);
-            
-            if(not existePartida[0]):
-                partida = getPartida(Ano, jogo);
+        try:
+            while(jogo<=380):
+                existePartida = verificarPartida(jogo, campeonato[1]);
+                
+                if(not existePartida[0]):
+                    partida = getPartida(Ano, jogo);
 
-                mandante = verificarTime(partida.mandante_nome);
-                visitante = verificarTime(partida.visitante_nome);
-                
-                if(int(partida.partida_numero) % 10 == 0):
-                    rodada = int(partida.partida_numero)/10
+                    mandante = verificarTime(partida.mandante_nome);
+                    visitante = verificarTime(partida.visitante_nome);
+                    
+                    if(int(partida.partida_numero) % 10 == 0):
+                        rodada = int(partida.partida_numero)/10
+                    else:
+                        rodada = (int(partida.partida_numero) + 10) // 10
+                        
+                    if(mandante[0] and visitante[0]):
+                        sql = ("INSERT INTO partidas (numeroPartida, local, data, golsMandante, golsVisitante, cartoesAmarelosMandante, cartoesAmarelosVisitante, cartoesVermelhosMandante, cartoesVermelhosVisitante, campeonatoId, mandanteId, visitanteId, partidaRealizada, rodada) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
+                        values = (partida.partida_numero, partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, campeonato[1], mandante[1], visitante[1], partida.resultado_valido, rodada);
+                                
+                        Connection.execute(sql, values)
+                        executeDatabaseCommand(); 
+                        jogo = jogo + 1
+                                
+                    else:
+                        print("Mandante e/ou Visitante não localizado!")
                 else:
-                    rodada = (int(partida.partida_numero) + 10) // 10
-                      
-                if(mandante[0] and visitante[0]):
-                    sql = ("INSERT INTO partidas (numeroPartida, local, data, golsMandante, golsVisitante, cartoesAmarelosMandante, cartoesAmarelosVisitante, cartoesVermelhosMandante, cartoesVermelhosVisitante, campeonatoId, mandanteId, visitanteId, partidaRealizada, rodada) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
-                    values = (partida.partida_numero, partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, campeonato[1], mandante[1], visitante[1], partida.resultado_valido, rodada);
-                            
+                    sql = ("select id, partidaRealizada from partidas where campeonatoId = %s and numeroPartida = %s")
+                    values = (campeonato[1],jogo,)
                     Connection.execute(sql, values)
-                    executeDatabaseCommand(); 
-                    jogo = jogo + 1
-                            
-                else:
-                    print("Mandante e/ou Visitante não localizado!")
-            else:
-                sql = ("select id, partidaRealizada from partidas where campeonatoId = %s and numeroPartida = %s")
-                values = (campeonato[1],jogo,)
-                Connection.execute(sql, values)
-                print("Jogo: " + str(jogo))
-                
-                partidaRealizada = Connection.fetchall();    
-                partida = getPartida(Ano, jogo);
-                
-                if(partidaRealizada == []):
-                    partidaRealizada = [(0, 1)]
+                    print("Jogo: " + str(jogo))
+                    
+                    partidaRealizada = Connection.fetchall();    
+                    partida = getPartida(Ano, jogo);
+                    
+                    if(partidaRealizada == []):
+                        partidaRealizada = [(0, 1)]
 
-                mandante = verificarTime(partida.mandante_nome);
-                visitante = verificarTime(partida.visitante_nome);  
-                
-                if(int(partida.partida_numero) % 10 == 0):
-                    rodada = int(partida.partida_numero)/10
-                else:
-                    rodada = (int(partida.partida_numero) + 10) // 10
-                           
-                if(mandante[0] and visitante[0]):
-                    sql = ("UPDATE partidas SET local = %s, data = %s, golsMandante = %s, golsVisitante = %s, cartoesAmarelosMandante = %s, cartoesAmarelosVisitante = %s, cartoesVermelhosMandante = %s, cartoesVermelhosVisitante = %s, partidaRealizada = %s, rodada = %s WHERE id = %s");
-                    values = (partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, partida.resultado_valido, rodada, partidaRealizada[0][0]);
-                            
-                    Connection.execute(sql, values)
-                    executeDatabaseCommand(); 
-                    jogo = jogo + 1
-                            
-                else:
-                    print("Mandante e/ou Visitante não localizado!")
-                
+                    mandante = verificarTime(partida.mandante_nome);
+                    visitante = verificarTime(partida.visitante_nome);  
+                    
+                    if(int(partida.partida_numero) % 10 == 0):
+                        rodada = int(partida.partida_numero)/10
+                    else:
+                        rodada = (int(partida.partida_numero) + 10) // 10
+                                
+                    if(mandante[0] and visitante[0]):
+                        sql = ("UPDATE partidas SET local = %s, data = %s, golsMandante = %s, golsVisitante = %s, cartoesAmarelosMandante = %s, cartoesAmarelosVisitante = %s, cartoesVermelhosMandante = %s, cartoesVermelhosVisitante = %s, partidaRealizada = %s, rodada = %s WHERE id = %s");
+                        values = (partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, partida.resultado_valido, rodada, partidaRealizada[0][0]);
+                                
+                        Connection.execute(sql, values)
+                        executeDatabaseCommand(); 
+                        jogo = jogo + 1
+                    else:
+                        print("jogo:" + str(jogo)+ " - " +mandante[0] + " - " + visitante[0])
+            resposta.sucess = True;
+            resposta.msg = "Partidas cadastradas/atualizadas com sucesso!";
+            return resposta;
+        except:
+            resposta.sucess = False;
+            resposta.msg = "Aconteceu um erro na gravação dos dados!";
+            return resposta;       
     else:
-        print("Campeonato não localizado!")
+        resposta.sucess = False;
+        resposta.msg = "Campeonato não localizado!";
+        return resposta;
             
 '''
 cadastrarCampeonato(2020)  
 cadastrarTimes(2020)       
-cadastrarPartidas('Campeonato Brasileiro de Futebol','Série A', 2020)  
+
 '''
