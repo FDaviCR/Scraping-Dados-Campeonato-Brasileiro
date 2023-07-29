@@ -3,6 +3,10 @@ from Functions.WsPartidas import getPartida
 from Functions.WsTimes import getTimes
 from Functions.WsCampeonato import getCampeonato
 
+class Answer:
+    sucess = False
+    msg = ''
+
 def verificarCampeonato(Campeonato, Divisao, Ano):
     sql = ("select id, Campeonato, Divisao, Ano from campeonatos");
     Connection.execute(sql);
@@ -34,19 +38,32 @@ def verificarPartida(NumeroPartida, Campeonato):
     else:
         return [False, 0, 0, 0]
 
-def cadastrarCampeonato(anoCampeonato):
+def cadastrarCampeonatoBrasileiro(anoCampeonato):
     dados = getCampeonato(anoCampeonato);
-    existeCampeonato = verificarCampeonato(dados[0], dados[1], dados[2])
+    existeCampeonato = verificarCampeonato(dados[0], dados[1], dados[2]);
+    resposta = Answer();
 
     if(existeCampeonato[0]):
-        print(dados[0]+" - "+dados[1]+" - "+dados[2] + " já cadastrado!");
+        resposta.sucess = False;
+        resposta.msg = dados[0]+" - "+dados[1]+" - "+dados[2] + " já esta cadastrado!";
+        return resposta;
     else:
-        sql = ("INSERT INTO campeonatos (campeonato, divisao, ano, ativo) VALUES (%s, %s, %s, %s)");
-        values = (dados[0], dados[1], dados[2], 1);
+        try:
+            sql = ("INSERT INTO campeonatos (campeonato, divisao, ano, ativo) VALUES (%s, %s, %s, %s)");
+            values = (dados[0], dados[1], dados[2], 1);
 
-        Connection.execute(sql, values)
-        executeDatabaseCommand();
-    
+            Connection.execute(sql, values);
+            executeDatabaseCommand();
+            
+            resposta.sucess = True;
+            resposta.msg = dados[0]+" - "+dados[1]+" - "+dados[2] + " cadastrado com sucesso!";
+            return resposta;
+            
+        except:
+            resposta.sucess = False;
+            resposta.msg = "Aconteceu um erro na gravação dos dados!";
+            return resposta;
+            
 def cadastrarTimes(anoCampeonato):
     times = getTimes(anoCampeonato);
 

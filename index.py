@@ -2,7 +2,7 @@ from tkinter import messagebox
 from tkinter import ttk
 from ttkbootstrap import Style
 
-from Functions.index import cadastrarCampeonato
+from Functions.index import cadastrarPartidas, cadastrarCampeonatoBrasileiro
 
 anos = [2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023]
 campeonatos = ['Campeonato Brasileiro de Futebol']
@@ -31,8 +31,14 @@ def closeForm():
     frameOptions.pack(padx=20, pady=40)
     
 def cadastrarCampeonato():
-    messagebox.showinfo(title='Mensagem de retorno', message=comboAnoCampeonato.get())
+    ano = int(comboAnoCampeonato.get());
+    cadastro = cadastrarCampeonatoBrasileiro(ano);
     
+    if(cadastro.sucess == True):
+        messagebox.showinfo(title='Cadastro de Campeonato', message=cadastro.msg)
+    else:
+        messagebox.showerror(title='Cadastro de Campeonato', message=cadastro.msg)
+       
 def cadastrarTime():
     messagebox.showinfo(title='Mensagem de retorno', message='Cadastro de Time')
     
