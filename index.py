@@ -31,7 +31,7 @@ def closeForm():
     frameOptions.pack(padx=20, pady=40)
     
 def cadastrarCampeonato():
-    messagebox.showinfo(title='Mensagem de retorno', message='Cadastro de Campeonato')
+    messagebox.showinfo(title='Mensagem de retorno', message=comboAnoCampeonato.get())
     
 def cadastrarTime():
     messagebox.showinfo(title='Mensagem de retorno', message='Cadastro de Time')
@@ -73,9 +73,9 @@ cadastroPartidas.grid(row=2, column=0, pady=10)
 labelAno = ttk.Label(frameFormCampeonato, text='Escolha o ano: ', font=(None, 10), width=20)
 labelAno.grid(row=1, column=0, padx=10, pady=5)
 
-comboAno = ttk.Combobox(frameFormCampeonato, values=anos, font=(None, 10), width=20)
-comboAno.set(2023)
-comboAno.grid(row=1, column=1, padx=10, pady=5)
+comboAnoCampeonato = ttk.Combobox(frameFormCampeonato, values=anos, font=(None, 10), width=20)
+comboAnoCampeonato.set(2023)
+comboAnoCampeonato.grid(row=1, column=1, padx=10, pady=5)
 
 buttonVoltar = ttk.Button(frameFormCampeonato, text='Voltar', command=closeForm, width=20)
 buttonVoltar.grid(row=3, column=0, padx=10, pady=10)
@@ -87,9 +87,9 @@ buttonCadastrar.grid(row=3, column=1, padx=10, pady=10)
 labelAno = ttk.Label(frameFormTime, text='Escolha o ano: ', font=(None, 10), width=20)
 labelAno.grid(row=1, column=0, padx=10, pady=5)
 
-comboAno = ttk.Combobox(frameFormTime, values=anos, font=(None, 10), width=20)
-comboAno.set(2023)
-comboAno.grid(row=1, column=1, padx=10, pady=5)
+comboAnoTime = ttk.Combobox(frameFormTime, values=anos, font=(None, 10), width=20)
+comboAnoTime.set(2023)
+comboAnoTime.grid(row=1, column=1, padx=10, pady=5)
 
 buttonVoltar = ttk.Button(frameFormTime, text='Voltar', command=closeForm, width=20)
 buttonVoltar.grid(row=3, column=0, padx=10, pady=10)
@@ -101,23 +101,23 @@ buttonCadastrar.grid(row=3, column=1, padx=10, pady=10)
 labelAno = ttk.Label(frameFormPartida, text='Escolha o ano: ', font=(None, 10))
 labelAno.grid(row=1, column=0, padx=10, pady=5)
 
-comboAno = ttk.Combobox(frameFormPartida, values=anos, font=(None, 10), width=40)
-comboAno.set(2023)
-comboAno.grid(row=1, column=1, padx=10, pady=5)
+comboAnoPartidas = ttk.Combobox(frameFormPartida, values=anos, font=(None, 10), width=40)
+comboAnoPartidas.set(2023)
+comboAnoPartidas.grid(row=1, column=1, padx=10, pady=5)
 
 labelCampeonato = ttk.Label(frameFormPartida, text='Escolha o campeonato: ', font=(None, 10))
 labelCampeonato.grid(row=2, column=0, padx=10, pady=5)
 
-comboCampeonato = ttk.Combobox(frameFormPartida, values=campeonatos, font=(None, 10), width=40)
-comboCampeonato.set('Campeonato Brasileiro de Futebol')
-comboCampeonato.grid(row=2, column=1, padx=10, pady=5)
+comboCampeonatoPartidas = ttk.Combobox(frameFormPartida, values=campeonatos, font=(None, 10), width=40)
+comboCampeonatoPartidas.set('Campeonato Brasileiro de Futebol')
+comboCampeonatoPartidas.grid(row=2, column=1, padx=10, pady=5)
 
 labelDivisao = ttk.Label(frameFormPartida, text='Escolha a divisão: ', font=(None, 10))
 labelDivisao.grid(row=3, column=0, padx=10, pady=5)
 
-comboDivisao = ttk.Combobox(frameFormPartida, values=divisoes, font=(None, 10), width=40)
-comboDivisao.set('Série A')
-comboDivisao.grid(row=3, column=1, padx=10, pady=5)
+comboDivisaoPartidas = ttk.Combobox(frameFormPartida, values=divisoes, font=(None, 10), width=40)
+comboDivisaoPartidas.set('Série A')
+comboDivisaoPartidas.grid(row=3, column=1, padx=10, pady=5)
 
 buttonVoltar = ttk.Button(frameFormPartida, text='Voltar', command=closeForm, width=20)
 buttonVoltar.grid(row=4, column=0, padx=10, pady=10)
