@@ -61,7 +61,7 @@ def cadastrarCampeonatoBrasileiro(anoCampeonato):
             
         except:
             resposta.sucess = False;
-            resposta.msg = "Aconteceu um erro na gravação dos dados!";
+            resposta.msg = "Aconteceu um erro na gravação dos dados do campeonato!";
             return resposta;
             
 def cadastrarTimesCampeonatoBrasileiro(anoCampeonato):
@@ -84,7 +84,7 @@ def cadastrarTimesCampeonatoBrasileiro(anoCampeonato):
                 executeDatabaseCommand();
             except:
                 resposta.sucess = False;
-                resposta.msg = "Aconteceu um erro na gravação dos dados!";
+                resposta.msg = "Aconteceu um erro na gravação dos dados dos times!";
                 return resposta;
             
         resposta.sucess = True;
@@ -135,7 +135,7 @@ def cadastrarPartidasPorCampeonato(Campeonato, Divisao, Ano):
                         partidaRealizada = [(0, 1)]
 
                     mandante = verificarTime(partida.mandante_nome);
-                    visitante = verificarTime(partida.visitante_nome);  
+                    visitante = verificarTime(partida.visitante_nome); 
                     
                     if(int(partida.partida_numero) % 10 == 0):
                         rodada = int(partida.partida_numero)/10
@@ -145,7 +145,7 @@ def cadastrarPartidasPorCampeonato(Campeonato, Divisao, Ano):
                     if(mandante[0] and visitante[0]):
                         sql = ("UPDATE partidas SET local = %s, data = %s, golsMandante = %s, golsVisitante = %s, cartoesAmarelosMandante = %s, cartoesAmarelosVisitante = %s, cartoesVermelhosMandante = %s, cartoesVermelhosVisitante = %s, partidaRealizada = %s, rodada = %s WHERE id = %s");
                         values = (partida.partida_local, partida.partida_data, partida.mandante_placar, partida.visitante_placar, partida.mandante_cartoes_amarelos, partida.visitante_cartoes_amarelos, partida.mandante_cartoes_vermelhos, partida.visitante_cartoes_vermelhos, partida.resultado_valido, rodada, partidaRealizada[0][0]);
-                                
+                        
                         Connection.execute(sql, values)
                         executeDatabaseCommand(); 
                         jogo = jogo + 1
@@ -156,7 +156,7 @@ def cadastrarPartidasPorCampeonato(Campeonato, Divisao, Ano):
             return resposta;
         except:
             resposta.sucess = False;
-            resposta.msg = "Aconteceu um erro na gravação dos dados!";
+            resposta.msg = "Aconteceu um erro na gravação dos dados das partidas!";
             return resposta;       
     else:
         resposta.sucess = False;
