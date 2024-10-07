@@ -31,8 +31,8 @@ def closeForm():
     frameOptions.pack(padx=20, pady=40)
     
 def cadastrarCampeonato():
-    ano = int(comboAnoCampeonato.get());
-    cadastro = cadastrarCampeonatoBrasileiro(ano);
+    ano = int(comboAnoCampeonato.get())
+    cadastro = cadastrarCampeonatoBrasileiro(ano)
     
     if(cadastro.sucess == True):
         messagebox.showinfo(title='Cadastro de Campeonato', message=cadastro.msg)
@@ -40,8 +40,8 @@ def cadastrarCampeonato():
         messagebox.showerror(title='Cadastro de Campeonato', message=cadastro.msg)
        
 def cadastrarTime():
-    ano = int(comboAnoTime.get());
-    cadastro = cadastrarTimesCampeonatoBrasileiro(ano);
+    ano = int(comboAnoTime.get())
+    cadastro = cadastrarTimesCampeonatoBrasileiro(ano)
     
     if(cadastro.sucess == True):
         messagebox.showinfo(title='Cadastro de Times', message=cadastro.msg)
@@ -49,10 +49,10 @@ def cadastrarTime():
         messagebox.showerror(title='Cadastro de Times', message=cadastro.msg)
     
 def cadastrarPartidas():
-    ano = int(comboAnoPartidas.get());
-    campeonato = comboCampeonatoPartidas.get();
-    divisao = comboDivisaoPartidas.get();
-    cadastro = cadastrarPartidasPorCampeonato(campeonato, divisao, ano);
+    ano = int(comboAnoPartidas.get())
+    campeonato = comboCampeonatoPartidas.get()
+    divisao = comboDivisaoPartidas.get()
+    cadastro = cadastrarPartidasPorCampeonato(campeonato, divisao, ano)
     
     if(cadastro.sucess == True):
         messagebox.showinfo(title='Cadastro de Partidas', message=cadastro.msg)
